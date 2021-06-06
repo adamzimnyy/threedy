@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <script>
+            window.customCards = [];
+        </script>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="base16-dark.css">
+        <link rel="stylesheet" href="codemirror.css">
+        <script src="codemirror.js"></script>
+        <script src="threedy-card.js"></script>
+        <script src="javascript.js"></script>
+        <script src="yaml.js"></script>
+        <script src="parse.js"></script>
+        <script src="lodash.js"></script>
+        <title>Threedy Tester</title>
+    </head>
+
+    <body>
+
+        <div id="Workspace">
+
+            <div id="Controls" class="Panel">
+
+                <div class="Subpanel">
+                    <div class="ConnectionPanel">
+                        <p>Entities</p>
+                        <div class="HassConnection">
+                            <span id="ConnectionStatus" class="Disconnected">HA Disconnected</span>
+                            <button onclick="connectHass()">Connect</button>
+                        </div>
+                    </div>
+                    <div id="EntityEditor">
+
+                    </div>
+                </div>
+
+                <div class="Subpanel">
+                    <p>Config</p>
+                    <div id="ConfigEditor">
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="CardView" class="Panel">
+                <threedy-card></threedy-card>
+            </div>
+
+        </div>
+
+        <script>
+
+            window.connectionStatus = 0;
+
+            const CONNECTION_TYPES = [
+              "Disconnected",
+              "Connected",
+              "Connecting"
+            ]
+
+            const connectHass = () => {
+                window.connectionStatus = 2;
+
+                const cstr = CONNECTION_TYPES[window.connectionStatus];
+                const csts = document.getElementById("ConnectionStatus");
+                csts.innerHTML = `HA ${cstr}${window.connectionStatus === 2 ? '...' : ''}`
+                csts.classList = [ cstr ];
+            }
+
+
+            const getThreedy = () => {
+                const threedies = document.getElementsByTagName('threedy-card');
+
+                if (threedies.length > 0) {
+                    return threedies[0];
+                }
+
+                return null;
+            }
+
+            const incTime = () => {
+              const threedy = getThreedy();
+
+              if (threedy) {
+
+                const old = threedy._hass;
+
+                Object.keys(old.states).forEach(
+                  entityId => {
+                    if (
+                      entityId.includes('_time_remaining') ||
+                      entityId.includes('_print_time_left')
+                    ) {
+                      old.states[entityId].state -= 10
+                    }
+
+                    if (
+                      entityId.includes('_time_elapsed') ||
+                      entityId.includes('_print_time')
+                    ) {
+                      old.states[entityId].state += 10
+                    }
+                  }
+                )
+
+
+                threedy.hass = old;
+              }
+
+            }
+
+            const _loadEntities = () => {
+                const entities = JSON.parse(window.entityEditor.getValue());
+
+                const threedy = getThreedy();
+
+                if (threedy) {
+                    threedy.hass = {
+                        states: entities
+                    }
+                }
+
+
+              clearInterval(window.timeUpdateIntervalId);
+              window.timeUpdateIntervalId = setInterval(incTime, 10 * 1000);
+
+            }
+
+            const _loadConfig = () => {
+                const config = jsyaml.load(window.configEditor.getValue())
+
+                const threedy = getThreedy();
+
+                if (threedy) {
+                    threedy.setConfig(config);
+                }
+
+
+            }
+
+            const loadEntities = _.debounce(_loadEntities, 100);
+            const loadConfig = _.debounce(_loadConfig, 100);
+
+            const loadData = () => {
+                loadEntities();
+                loadConfig();
+            }
+
+            window.onload = () => {
+
+                window.entityEditor = CodeMirror(document.getElementById("EntityEditor"), {
+                    lineNumbers: true,
+                    theme: 'base16-dark',
+                    mode: 'javascript',
+                    value: `{\n  \"sensor.ender_3_v2_current_state\": {\n    \"state\": \"Printing\"\n  },\n  \"sensor.ender_3_v2_job_percentage\": {\n    \"state\": 52.12\n  },\n  \"sensor.ender_3_v2_actual_tool0_temp\": {\n    \"state\": 214.7,\n    \"attributes\": {\n      \"unit_of_measurement\": \"°C\"\n    }\n  },\n  \"sensor.ender_3_v2_actual_bed_temp\": {\n    \"state\": 65.1,\n    \"attributes\": {\n      \"unit_of_measurement\": \"°C\"\n    }\n  },\n  \"sensor.ender_3_v2_time_elapsed\": {\n    \"state\": 37\n  },\n  \"sensor.ender_3_v2_time_remaining\": {\n    \"state\": 30\n  },\n  \"switch.ender\": {},\n  \"switch.light\": {\n    \"state\": \"on\"\n  },\n  \"camera.test\": {\n    \"attributes\": {\n      \"access_token\": \"ff\"\n    },\n    \"test\": true,\n    \"testUrl\": \"http://69.51.252.162:8081/?action=stream\"\n  }\n}`
+                });
+
+
+                window.configEditor = CodeMirror(document.getElementById("ConfigEditor"), {
+                    lineNumbers: true,
+                    theme: 'base16-dark',
+                    mode: 'yaml',
+                    value: `type: \'custom:threedy-card\'\nbase_entity: \'sensor.ender_3_v2\'\nname: \'Ender 3 v2\'\nprinter_type: I3\nexact_time: true\nmonitored:\n  - Status\n  - ETA\n  - Elapsed\n  - Remaining\n  - Hotend\n  - Bed`});
+
+                window.entityEditor.on("change", loadEntities);
+                window.configEditor.on("change", loadConfig);
+
+                setTimeout(loadData, 1000);
+
+            }
+
+        </script>
+
+    </body>
+
+</html>
