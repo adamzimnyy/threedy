@@ -175,6 +175,10 @@ card:
 ## Developing
 ---
 
+The 2.0 release of Threedy includes a nice local dev editor:
+
+![Dev Editor](https://raw.githubusercontent.com/dangreco/threedy/threedy2.0/screenshots/devEditor.png)
+
 
 Clone the repository:
 ```zsh
