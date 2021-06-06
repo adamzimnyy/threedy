@@ -27,7 +27,7 @@
     - [Idle](#idle)
     - [Printer Offline](#printer-offline)
     - [Show/Hide Animation](#showhide-animation)
-- [Devloping](#-developing)
+- [Developing](#-developing)
     
     
     
