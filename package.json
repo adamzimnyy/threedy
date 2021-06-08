@@ -1,5 +1,11 @@
 {
   "name": "threedy",
+  "repository": "https://github.com/dangreco/threedy",
+  "author": {
+    "name" : "Dan Greco",
+    "email" : "dan.greco@live.com",
+    "url" : "https://dangre.co/"
+  },
   "version": "2.0.0",
   "main": "index.js",
   "license": "MIT",
