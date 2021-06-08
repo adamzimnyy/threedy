@@ -10,6 +10,7 @@ export class ThreedyCard extends HTMLElement {
     render(<Root hass={this._hass} config={this._config} card={this} />, this);
   }
   _derender() {
+    this.innerHTML = "";
     render("", this);
   }
 

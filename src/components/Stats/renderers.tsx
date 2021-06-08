@@ -1,4 +1,4 @@
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { HassEntity } from "home-assistant-js-websocket";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
@@ -121,26 +121,44 @@ const _formatDuration = (seconds: number) => {
  * @return The formatted duration string with respect to the user's configuration.
  */
 export const renderDuration = (entity: HassEntity, dir: number) => {
-  const [seconds, setSeconds] = useState(parseInt(entity.state));
+  try {
+    const intervalId = useRef(-1);
 
-  const modTime = () => {
-    setSeconds((s) => {
-      const ns = s + dir;
-      return ns < 0 ? 0 : ns;
-    });
-  };
+    const initialSeconds = parseInt(entity.state);
+    const [seconds, setSeconds] = useState(initialSeconds);
 
-  useEffect(() => {
-    setSeconds(parseInt(entity.state));
-  }, [entity]);
+    const modTime = () => {
+      setSeconds((s) => {
+        const ns = s + dir;
 
-  useEffect(() => {
-    const intervalId = setInterval(modTime, 1000);
+        // If we're done counting down
+        if (ns < 0 && dir < 0) {
+          clearInterval(intervalId.current);
+          return 0;
+        }
 
-    return () => clearInterval(intervalId);
-  }, []);
+        return ns;
+      });
+    };
 
-  return _formatDuration(seconds);
+    useEffect(() => {
+      if (intervalId.current !== -1) clearInterval(intervalId.current);
+
+      setInterval(modTime, 1000);
+
+      return () => clearInterval(intervalId.current);
+    }, []);
+
+    useEffect(() => {
+      try {
+        setSeconds(parseInt(entity.state));
+      } catch {}
+    }, [entity]);
+
+    return _formatDuration(seconds);
+  } catch {
+    return "Error!";
+  }
 };
 
 /**
@@ -153,7 +171,7 @@ export const renderETA = (entity: HassEntity) => {
 
   return dayjs()
     .add(parseInt(entity.state), "seconds")
-    .format(config.use_24hr ? "HH:mm" : "h:mm a");
+    .format(config.use_24hr === true ? "HH:mm" : "h:mm a");
 };
 
 /**

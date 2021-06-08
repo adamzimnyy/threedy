@@ -24,6 +24,8 @@ const Header: FunctionalComponent<HeaderProps> = ({
 
   const printerStatus = entityFromCondition(MonitoredCondition.Status);
 
+  if (printerStatus === undefined) return null;
+
   const statusCircleColor =
     STATUS_CIRCLE_COLORS[printerStatus!.state] || StatusColor.Idle;
 

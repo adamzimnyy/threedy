@@ -1,196 +1,148 @@
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/dangreco/threedy">
+    <img src="https://raw.githubusercontent.com/dangreco/threedy/threedy2.0/threedy-logo.png" alt="Logo" width="600" height="295">
+  </a>
 
 
-# threedy
-## Home Asssistant card for 3D printers (via OctoPrint integration)
+<h3 align="center">threedy</h3>
+
+  <p align="center">
+    Home Asssistant card for 3D printers (via OctoPrint + MQTT integrations)
+    <br />
+    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    ·
+    <a href="https://github.com/dangreco/threedy/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/dangreco/threedy/issues">Request Feature</a>
+  </p>
+</p>
 
 
-![Featured](https://github.com/dangreco/threedy/raw/master/screenshots/active.png)
 
-<a href="https://www.buymeacoffee.com/dangreco" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
-
-
-# Table of Contents
-- [Features](#-features)
-- [Prerequisites](#-prerequisites)
-- [Installation](#-installation)
-    - [Method 1: HACS](#method-1-hacs)
-    - [Method 2: Manual](#method-2-manual)
-- [Config](#-config)
-    - [Graphical](#-Graphical)
-    - [Manual](#manual)
-        - [Required](#required)
-        - [Optional](#optional)
-- [Example Config](#-example-config)
-- [Custom Theming](#-custom-theming)
-- [Screenshots](#-screenshots)
-    - [Active Print](#active-print)
-    - [Idle](#idle)
-    - [Printer Offline](#printer-offline)
-    - [Show/Hide Animation](#showhide-animation)
-- [Developing](#-developing)
-    
-    
-    
-
-## Features
----
-
-- Live animation of 3D printer
-- Live camera view
-- Current states of various OctoPrint sensors
-- Tap to show/hide when printer is idle
-- Power button for a switch entity
-- Light button for a switch entity
-- Adjustable 3D printer graphic scale
-- Themes
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
+  </ol>
+</details>
 
 
-## Prerequisites
----
-- [OctoPrint](https://octoprint.org/)-enabled 3D printer
-- [Home Assistant](https://www.home-assistant.io/) instance
-- Home Assistant [OctoPrint integration](https://www.home-assistant.io/integrations/octoprint/)
-    - *** Make sure to expose all available data entities for your printer! ***
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+___
 
 
-## Installation
----
-### Method 1: HACS
-1. Open _HACS_ and navigate to _Frontend_ Section
-2. Open the Overflow Menu (⋮) in the top right corner and click on _Custom repositories_
-3. Paste `https://github.com/dangreco/threedy` into the input field and select `Lovelace` from the dropdown
-4. Click the Install Button on the highlighted Card titled _threedy_
+There are many great README templates available on GitHub, however, I didn't find one that really suit my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
 
-### Method 2: Manual
+Here's why:
+* Your time should be focused on creating something amazing. A project that solves a problem and helps others
+* You shouldn't be doing the same tasks over and over like creating a README from scratch
+* You should element DRY principles to the rest of your life :smile:
 
-1. Download ```threedy-card.js``` from the releases section.
-2. Either:
-* Move to the ```www``` folder of your Home Assistant instance
-* Or copy the ffle's contents via the file editor.
-3. In the Resources section of Lovelace (```Configuration -> Lovelace Dashboards -> Resources```), add ```/local/threedy-card.js``` as a ```JavaScript Module```.
-4. Save
-5. Add a manual card to your lovelace dashboard using the configuration instructions below.
-6. Restart Server management
-7. Reload Browser
+Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have have contributed to expanding this template!
+
+A list of commonly used resources that I find helpful are listed in the acknowledgements.
+
+### Built With
+This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+* [Bootstrap](https://getbootstrap.com)
+* [JQuery](https://jquery.com)
+* [Laravel](https://laravel.com)
 
 
-## Config
----
+<!-- ROADMAP -->
+## Roadmap
+___
 
-### Graphical (Recommended)
+See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
 
-![graphical](https://github.com/dangreco/threedy/raw/master/screenshots/graphical.png)
+- [ ] 
 
+<!-- CONTRIBUTING -->
+## Development/Contributions
+___
 
-### Manual
+![Dev Editor](https://raw.githubusercontent.com/dangreco/threedy/threedy2.0/screenshots/editor.png)
 
-#### Required
+### Development
+___
 
-- ```type``` &mdash; Always ```'custom:threedy-card'```
-- ```base_entity``` &mdash; Take the beginning of one of the OctoPrint sensors of your printer. Example: for ```sensor.ender_3_v2_current_state``` it would be ```sensor_ender_3_v2```.
-- ```name``` &mdash; Can be whatever you want!
-- ```printer_type``` &mdash; Use a  printer style: ```'I3' | 'Cantilever' ```
-- ```monitored``` &mdash; A list of values to monitor throughout the print; gets displayed to the right of the printer.
+Version 2.0 of **threedy** includes a local development workbench for testing out the card.
+The "Entities" section of the workbench allows you to view and edit a local source of Home Assistant
+entities, or use the live entities of a connected Home Assistant instance. The "Config" 
+section workbench allows you to modify the card's configuration programmatically or graphically.
 
-#### Optional
+### To get started:
 
-- ```theme``` &mdash; Theme of the card: ```'Default' | 'Neumorphic' ```. Screenshots listed below.
-- ```font``` &mdash; Specify the font used in the card. By default it is ```sans-serif```.
-- ```scale``` &mdash; The scale factor of the animated 3D printer view. Try different values until you find one you like.
-- ```round_time``` &mdash; Specify whether to round durations of time. Defaults to false. ```true | false```
-- ```round_temperature``` &mdash; Specify whether to round decimal numbers for temperatures. Defaults to false. ```true | false```
-- ```temperature_unit``` &mdash; Specify which unit of temperature measurement to convert to. ```'F' | 'C' ```
-- ```use_24hr``` &mdash; Use 24 hour time format instead of 12 hour.
-- ```use_mqtt``` &mdash; Use [MQTT integration](https://plugins.octoprint.org/plugins/homeassistant/) instead of OctoPrint API.
-- ```printer_config``` &mdash; Use in with ```printer_type``` to set a custom printer style. If omitted, the default for the type will be used. Use [this tool](https://google.com) to create a custom value.
-- ```camera_entity``` &mdash; Specify the entity ID of the camera entity you want to display **when the printer graphic is clicked**.
-- ```light_entity``` &mdash; Specify the entity ID of a light you want to toggle for the printer.
-- ```power_entity``` &mdash; Specify the entity ID of a power switch you want to toggle for the printer.
-
-## Example Config
----
-
-```yaml
-# required
-type: 'custom:threedy-card'
-base_entity: 'sensor.ender_3_v2'
-name: 'Ender 3 v2'
-printer_type: I3
-monitored:
-  - Status
-  - ETA
-  - Elapsed
-  - Remaining
-  - Hotend
-  - Bed
-# optionals  
-theme: 'Default'
-font: 'Roboto'
-scale: 1.0
-round: false 
-```
-
-## Custom Theming
----
-
-Custom theming can be accomplished using [lovelace-card-mod](https://github.com/thomasloven/lovelace-card-mod#mod-card)'s ```mod-card```.
-Some styles may require the css keyword ``` !important``` to override the inline style.
-Example usage as follows:
-
-```yaml
-type: 'custom:mod-card'
-style: |
-  threedy-card > div {
-    box-shadow: none !important;
-  }
-card:
-  type: 'custom:threedy-card'
-    .
-    .
-    .
-    <card config>
-```
-
-
-## Screenshots
----
-
-### Active Print
-
-![Active](https://github.com/dangreco/threedy/raw/master/screenshots/active.png)
-
-### Idle
-
-![Idle](https://github.com/dangreco/threedy/raw/master/screenshots/idle.png)
-
-### Printer Offline
-
-![Offline](https://github.com/dangreco/threedy/raw/master/screenshots/offline.png)
-
-### Show/Hide Animation
-
-![ShowHide](https://media.giphy.com/media/14VgtFSulJkOaRiZFo/giphy.gif)
-
-
-## Developing
----
-
-The 2.0 release of Threedy includes a nice local dev editor:
-
-![Dev Editor](https://raw.githubusercontent.com/dangreco/threedy/threedy2.0/screenshots/devEditor.png)
-
-
-Clone the repository:
+#### 1. Clone the repository:
 ```zsh
 $ git clone https://github.com/dangreco/threedy && cd threedy
 ```
-
-Install dependencies:
+#### 2. Install dependencies:
 ```zsh
 $ yarn install
 ```
 
-Start dev server:
+#### 3. Start development server:
 ```zsh
 $ yarn dev
 ```
+
+
+### Contributing
+___
+
+Thank you for taking time to help make **threedy** better! 
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+
+
+<!-- LICENSE -->
+## License
+___
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+
+<!-- ACKNOWLEDGEMENTS -->
+## Acknowledgements
+___
+* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
+* [Img Shields](https://shields.io)
+* [Choose an Open Source License](https://choosealicense.com)
+* [GitHub Pages](https://pages.github.com)
+* [Animate.css](https://daneden.github.io/animate.css)
+* [Loaders.css](https://connoratherton.com/loaders)
+* [Slick Carousel](https://kenwheeler.github.io/slick)
+* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
+* [Sticky Kit](http://leafo.net/sticky-kit)
+* [JVectorMap](http://jvectormap.com)
+* [Font Awesome](https://fontawesome.com)
